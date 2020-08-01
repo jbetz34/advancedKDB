@@ -18,19 +18,21 @@
 @[{.u.reg neg hopen x};`$":",.z.x 0;"Cannot connect to tickerplant"];
 if[not system"t"; system"t 5000"];
 
-// defining schemas
-.debug.t:.debug.q:();
-OHLC:([] time:0#0nn;sym:0#`;volume:0#0ni;maxPx:0#0n;minPx:0#0n;bestBid:0#0n;bestAsk:0#0n);
-/.ohlc:.new:()!();
-/@[`.ohlc;;:;()!()] each `size`max`min`bid`ask;
-/@[`.new;;:;()!()] each `size`max`min`bid`ask;
-.ohlc.size: ([sym:0#`] volume:0#0ni);
-.ohlc.max: ([sym:0#`] maxPx:0#0n);
-.ohlc.min: ([sym:0#`] minPx:0#0n);
-.ohlc.bid: ([sym:0#`] bestBid:0#0n);
-.ohlc.ask: ([sym:0#`] bestAsk:0#0n);
-.tmp.t:([]sym:0#`;size:0#0ni;price:0#0n);
-.tmp.q:([]sym:0#`;bid:0#0n;ask:0#0n);
+// initialize function - defining schemas
+init:{[]
+  OHLC::([] time:0#0nn;sym:0#`;volume:0#0ni;maxPx:0#0n;minPx:0#0n;bestBid:0#0n;bestAsk:0#0n);
+  /.ohlc:.new:()!();
+  /@[`.ohlc;;:;()!()] each `size`max`min`bid`ask;
+  /@[`.new;;:;()!()] each `size`max`min`bid`ask;
+  .ohlc.size: ([sym:0#`] volume:0#0ni);
+  .ohlc.max: ([sym:0#`] maxPx:0#0n);
+  .ohlc.min: ([sym:0#`] minPx:0#0n);
+  .ohlc.bid: ([sym:0#`] bestBid:0#0n);
+  .ohlc.ask: ([sym:0#`] bestAsk:0#0n);
+  .tmp.t:([]sym:0#`;size:0#0ni;price:0#0n);
+  .tmp.q:([]sym:0#`;bid:0#0n;ask:0#0n);
+ }
+init[];
 
 \d .rte
 
@@ -84,12 +86,14 @@ upd:{
  }
 \d .
 
-upd:{[t;x] $[t=`quote;.debug.q,:x;.debug.t,:x];.rte[t]x}
+upd:{[t;x] .rte[t]x}
 
 // publishing functs
 pub:{[]
   if[count .rte.upd[];.rte.h (`.u.upd;`OHLC;flip value each .rte.upd[])]} // {h each .rte.upd[];}
 .z.ts:{pub[]}
+
+.eod.end:{pub[];init[]}
 
 .cfg.name:"rte";
 .z.po:{0N!.z.w[".cfg.name"]," opened a connection on handle ",string .z.w}

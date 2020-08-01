@@ -51,7 +51,7 @@ if[not system"t";system"t 1000";
 // allows upd and .u.upd updates
 upd:.u.upd;
 // calls the custom eod function compressing all columns except sym and time
-.u.end:{(neg union/[w[;;0]])@\:(`.eod.end;x)};
+.u.end:{(neg union/[.u.w[;;0]])@\:(`.eod.end;x)};
 // attempts to connect to all necessary processes and tell them to register
 @[{(hopen `$"::",getenv x)".u.reg[]"};;()]each `RDB_1_PORT`RDB_2_PORT`RTE_PORT`FEED_PORT;
 // custom code
