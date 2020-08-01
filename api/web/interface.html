@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
 	<head>
-		<script src="file:///home/james/advancedKDB/web/c.js"></script>
-		<script src="file:///home/james/advancedKDB/web/w3.js"></script>
+		<script src="c.js"></script>
+		<script src="w3.js"></script>
 		<script>
 			var serverurl = "//localhost:5030/", 
 			ws;
@@ -44,6 +44,7 @@
 	<body>
 		<legend>Filter Trades</legend>
 		<p>
+		<button onclick='connect()' >connect</button>
 		<label>Symbol Filter</label>
 		<input type = "text"
 		       id = "symFilter"
