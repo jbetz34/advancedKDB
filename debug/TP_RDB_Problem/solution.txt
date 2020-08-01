@@ -1,0 +1,22 @@
+Locate the error: 
+
+The tplog file will not replay correctly because the messages are not formatted correctly
+On the 6-8 lines of the file, 1 message looks like it is broken into 3 parts. Below is a 
+snippet of the tplog, you can see this snippet be running "get `:tplog" in any q session:
+
+1	(`upd;`trade;+`sym`price`size!(`A`C`B`C`B;9.025784 4.470818 1.387079 9.409523..
+2	(`upd;`trade;+`sym`price`size!(`A`D`A`A`C;5.339515 9.387084 3.027801 4.448492..
+3	(`upd;`trade;+`sym`price`size!("ACBCD";6.88089 6.377554 0.3845637 8.972357 7...
+4	(`upd;`trade;+`sym`price`size!(`C`E`B`D`E;9.082711 9.796094 3.077491 3.652273..
+5	(`upd;`trade;+`sym`price`size!(`F`F`C`F`D;7.24948 8.112026 2.086614 9.907116 ..
+6	(`upd;`trade;+`sym`price`size!(`A`C`E`D`E;6.919292 9.471555 3.40393 9.614594 ..
+7	,`upd
+8	,`trade
+9	,+`sym`price`size!(`D`B`D`B`C;6.718125 8.639591 8.439807 5.426371 0.7757332;2..
+10	(`upd;`trade;+`sym`price`size!("FDAEB";2.062569 4.81821 2.065625 5.229178 3.3..
+
+Solution: 
+
+Correct the problem by joining the 3 lines that are incorrectly formatted 
+	`:newtplog set tp[til 6],(enlist first'[tp 6 7 8]),(tp:get `:tplog)[enlist 9]
+

@@ -1,0 +1,10 @@
+There are 3 tables in the db directory, they have the following errors:
+
+t1) This table is missing the hidden .d file that determines the column names
+t2) This table has an uneven size of each column. Sym and Size have a count of 25, Price has a count of 24
+t3) This table's sym column is not enumerated against the sym file
+
+The following are possible solutions to the errors:
+t1) Create a .d file for this table in the t1 dir. 	e.g. `:t1/.d set `sym`price`size
+t2) Re-save the table or the individual price column. 	e.g. `:t2/price set 25#t2`price
+t3) Enumerate and re-save the sym column. 		e.g. `:t3/sym set `sym$t3`sym

@@ -1,0 +1,14 @@
+Inside scripts.q there are 3 defined functions that will perform in nearly the same way. 
+They each have their aasumptions about the dataset being passed as input, but given the 
+input that was presented in the original problem, raze 500000#enlist("2010.01.01";2010.01.02), 
+they return the same output. 
+There is an additional function in script.q, compare[func;arg] which will take a defined function 
+or a list of defined functions as a symbol/symbol list and an arguement to be passed to the
+functions. This function will return a table with columns:
+	function (symbol) - function name 
+	time (long) - time function took to run in ms
+	size (long) - memory used to run func in bytes
+	match (boolean) - func output match StringtoDate output
+The exact time performance varies for each function from run to run, but the general trend shows
+about 1/3 time taken to run. However the cost of this time improvement comes in memory usage. 
+Every function developed consistently uses more memory than the default StringtoDate function. 

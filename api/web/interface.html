@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="file:///home/james/advancedKDB/web/c.js"></script>
+		<script src="file:///home/james/advancedKDB/web/w3.js"></script>
+		<script>
+			var serverurl = "//localhost:5030/", 
+			ws;
+
+			function connect() {
+			    if ("WebSocket" in window) {
+			        ws = new WebSocket("ws:" + serverurl);
+			        ws.binaryType="arraybuffer";
+				ws.onopen=function(e){
+					ws.send(serialize( { ".web.query" : document.getElementById('symFilter').value } ));
+			        };
+			        ws.onclose=function(e){
+			        };
+			        ws.onmessage=function(e){
+			            print(deserialize(e.data));
+			        };
+			        ws.onerror=function(e) {window.alert("WS Error") };
+			    } else alert("WebSockets not supported on your browser.");
+			}
+			
+			function appendTableElement(rowID,elementID,text) {
+				let tr = document.getElementById(rowID)
+                                let lmnt = document.createElement(elementID)
+                                let txt = document.createTextNode(text)
+                                lmnt.appendChild (txt)
+                                tr.appendChild (lmnt)
+			}
+
+			function print(table) {
+				for (var h in hlist = Object.getOwnPropertyNames(table[0])) { 
+					appendTableElement('head1','th',hlist[h])
+					appendTableElement('data1','td','{{'+hlist[h]+'}}')
+				}	
+				var resTable = { "rows":table };
+				w3.displayObject("tab1", resTable);
+			}
+		</script>
+	</head>
+	<body>
+		<legend>Filter Trades</legend>
+		<p>
+		<label>Symbol Filter</label>
+		<input type = "text"
+		       id = "symFilter"
+		       value = ""/>
+		<button onclick='connect()' >show</button>
+		</p>
+		<p>
+		<table id = "tab1" >
+			<tr id = "head1">
+			</tr>
+			<tr id = "data1"w3-repeat="rows">
+			</tr>
+		</table> 
+	</body>
+</html>

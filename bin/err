@@ -1,0 +1,12 @@
+KDB+ 3.6 2019.04.02 Copyright (C) 1993-2019 Kx Systems
+l32/ 1()core 3936MB james james-pc 127.0.1.1 NONEXPIRE  
+
+'type
+  [2]  /home/james/advancedKDB/bin/test.q:4: 4+`a;
+                                              ^
+  [0]  (<load>)
+
+  )  )'stop
+  [3]  (.Q.dr)
+
+ .Q )) .Q ))
