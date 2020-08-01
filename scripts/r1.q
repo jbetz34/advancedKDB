@@ -31,9 +31,10 @@ upd:insert;
 
 //custom code
 \d .eod
+// for now we are ignoring the hdb refresh call, rdb should never call system"l ." while in hdbdir
 compression:(17;2;6);
 csave:{[d;p;t;ex;f;x;y;z] (` sv (d;`$string p;t;`);c!count[c:except[cols t;ex]]#enlist (x;y;z)) set f xcols @[f xasc .Q.en[`:.;value t];f;`p#];@[`.;t;0#]}
-end:{t:tables`.;t@:where `g=attr each t@\:`sym;.[csave[`:.;x;;`sym`time;`sym;]'[t];compression];@[hopen;`$":",.u.x 1;0]" system\"l .\""}
+end:{t:tables`.;t@:where `g=attr each t@\:`sym;.[csave[`:.;x;;`sym`time;`sym;]'[t];compression];@[;`sym;`g#] each t;}  /@[hopen;`$":",.u.x 1;0]" system\"l .\""}
 \d .
 
 .cfg.name:"rdb_1";
