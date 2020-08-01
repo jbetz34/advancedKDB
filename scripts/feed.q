@@ -12,14 +12,22 @@
 
 \d .f
 // parse commandline params
-l:hsym `$getenv[`LOG_DIR],"/missingMsg_",string[.z.D];l set ();L:hopen l;
-.u.reg:{.f.h:neg hopen `$":",.z.x 0};
-@[.u.reg;();{"Cannot connect to tickerplant";.f.h:.f.L}];
+// builds missingMsg log (records all messages that tp missed)
+L:hsym `$getenv[`LOG_DIR],"/missingMsg_",string[.z.D];L set ();l:hopen L;
+// register function: if called from remote process -> store remote handle
+//                  : if called from local process -> store arguement
+.u.reg:{.f.h:$[.z.w;.z.w;x]};
+// try to connect to the tickerplant port as defined in the commandline
+// if cannot connect, store the missingMsg file handle as the target handle
+@[{.u.reg neg hopen x};`$":",.z.x 0;{"Cannot connect to tickerplant";.f.h:.f.l}];
+// if the message quantity (MSG) is not defined, then set as 1 msg per rate
 if[null first msg:"I"$.z.x 1; msg:1];
 
 // initialize configurable variables
 symList:`IBM.N`GE`BMW`UL`FB`GW;
 
+// functions to define each message type
+// msg variable defines how many messages are created
 gen.trade:{ (`upd;`trade;(msg#.z.N; msg?symList; 10+((msg?50)*(msg?(1;-1)))%10; msg?10i))};
 gen.quote:{[side]
   res:$[`b=side;
@@ -30,10 +38,14 @@ gen.quote:{[side]
  }
 
 // system startup
+// if the message rate (RATE) is not defined, set it as 1 second
 $[null first .z.x 2; system"t 1000"; system"t ",.z.x 2];
+// will randomly select a message type and side, and push to target handle
 .z.ts:{h .[gen;raze 1?cross[`quote`trade;`b`s]]}
 
 // open and close handling
-.z.po:{0N!"Connection Opened"}
+.z.po:{}
+// if the target handle disconnects, send messages back to missingMsg log
+.z.pc:{if[x=abs .f.h;.f.h:.f.l]}
 
 .cfg.name:"feed";

@@ -9,11 +9,13 @@
 
 // rte process
 // q tick/rte.q :5010 -p 5050
-
+// OHLC schema
 // ([] sym;volume;max;min;bestBid;bestAsk)
 // initialize functs
-.u.reg:{(neg hopen `$":",.z.x 0)"(.u.sub[;`]each `trade`quote;`.u `i`L)"};
-@[.u.reg;();"Cannot connect to tickerplant"];
+// register function: if called from remote process -> subscribe to remote handle
+//                  : if called from local process -> Subscribe to arguement handle
+.u.reg:{(.rte.h:$[.z.w;.z.w;x])"(.u.sub[;`]each `trade`quote;`.u `i`L)"};
+@[{.u.reg neg hopen x};`$":",.z.x 0;"Cannot connect to tickerplant"];
 if[not system"t"; system"t 5000"];
 
 // defining schemas
@@ -86,7 +88,7 @@ upd:{[t;x] $[t=`quote;.debug.q,:x;.debug.t,:x];.rte[t]x}
 
 // publishing functs
 pub:{[]
-  if[count .rte.upd[];h (`.u.upd;`OHLC;flip value each .rte.upd[])]} // {h each .rte.upd[];}
+  if[count .rte.upd[];.rte.h (`.u.upd;`OHLC;flip value each .rte.upd[])]} // {h each .rte.upd[];}
 .z.ts:{pub[]}
 
 .cfg.name:"rte";

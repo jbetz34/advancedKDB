@@ -26,8 +26,8 @@ upd:{$[x in tables[]; x insert y;()];};
 .u.rep:{(.[;();:;].)each x;if[null first y;:()];-11!y;};
 
 / connect to ticker plant for (schema;(logcount;log))
-.u.reg:{.u.rep .(hopen `$":",.u.x 0)"(.u.sub[;`]'[`trade`quote];`.u `i`L)"};
-@[.u.reg;();"Cannot connect to tickerplant"];
+.u.reg:{.u.rep .($[.z.w;.z.w;x])"(.u.sub[;`]'[`trade`quote];`.u `i`L)"};
+@[{.u.reg hopen x};`$":",.u.x 0;"Cannot connect to tickerplant"];
 
 // custom code
 \d .eod
