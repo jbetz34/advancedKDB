@@ -144,4 +144,3 @@ extern double log(double);
 #define xB ((G*)xG)
 
 #endif
-
