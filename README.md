@@ -1,5 +1,6 @@
 # advancedKDB
 Before starting these processes, be sure to enter QHOME, QLIC details in advancedKDB/config/config.profile
+
 Part 1. 
 	advancedKDB/bin contains all of the scripts to start the system. A brief description of each is available in the README.txt
 	advancedKDB/scripts contains all of the q scripts referenced in the q processes
