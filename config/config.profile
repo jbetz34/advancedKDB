@@ -11,9 +11,9 @@ export SCHEMAS="${SCRIPTS_DIR}/tick/tables.q"
 
 ### ~~~ KDB ENV PARAMS ~~~ ### 
 
-export QHOME="/home/james/q"
+export QHOME="/home/james/q64"
 export QLIC="${QHOME}"
-export QEXEC="${QHOME}/l32/q"
+export QEXEC="${QHOME}/l64/q"
 
 ### ~~~ PROCESS PARAMS ~~~ ###
 
